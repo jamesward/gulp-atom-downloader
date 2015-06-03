@@ -1,31 +1,43 @@
 {
-  "name": "gulp-electron-downloader",
+  "name": "gulp-atom-downloader",
   "version": "0.0.1",
-  "description": "A gulp.js plugin to help download electron.",
+  "description": "A gulp.js plugin that downloads Atom",
   "main": "plugin.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/smebberson/gulp-electron-downloader.git"
+    "url": "https://github.com/jamesward/gulp-atom-downloader.git"
   },
   "keywords": [
     "gulpplugin",
-    "electron"
+    "atom"
   ],
-  "author": "Scott Mebberson",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/smebberson/gulp-electron-downloader/issues"
+  "author": {
+    "name": "James Ward",
+    "url": "http://www.jamesward.com/"
   },
-  "homepage": "https://github.com/smebberson/gulp-electron-downloader",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamesward/gulp-atom-downloader/issues"
+  },
+  "homepage": "https://github.com/jamesward/gulp-atom-downloader",
   "dependencies": {
-    "async": "^0.9.0",
-    "extract-zip": "^1.0.3",
-    "fs-jetpack": "^0.6.4",
-    "gulp-util": "^3.0.4",
-    "progress": "^1.1.8",
-    "request": "^2.55.0"
+    "gulp-util": "~3.0.5",
+    "request-promise": "~0.4.2",
+    "bluebird": "~2.9.27",
+    "mkdirp": "~0.5.1",
+    "extract-zip": "~1.0.3"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.0",
+    "gulp-jshint": "~1.11.0",
+    "jshint-stylish": "~2.0.0",
+    "mocha": "~2.2.5",
+    "gulp-mocha": "~2.1.0",
+    "mocha-spec-reporter-async": "~0.5.7",
+    "chai": "~2.3.0",
+    "tmp": "~0.0.26"
   }
 }
