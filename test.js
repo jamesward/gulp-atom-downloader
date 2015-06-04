@@ -6,7 +6,7 @@ var assert = require('chai').assert,
   atomExePath = require('./plugin');
 
 describe('gulp-atom-downloader', function() {
-  it('should download Atom for the current mac', function(done) {
+  it('should download Atom for mac', function(done) {
 
     var tmpDir = tmp.dirSync({unsafeCleanup: true});
     tmpDir.removeCallback();
@@ -18,8 +18,9 @@ describe('gulp-atom-downloader', function() {
     };
 
     atomExePath(config).then(function(atomExePath) {
-      assert.equal(atomExePath, tmpDir.name + '/bin/Atom.app'); // todo: only mac right now
-      assert.isTrue(fs.existsSync(atomExePath));
+      var expectedPath = tmpDir.name + '/bin/Atom.app/Contents/MacOS/Atom';
+      assert.equal(atomExePath, expectedPath);
+      assert.isTrue(fs.existsSync(expectedPath));
       done();
     }).catch(function(err){
       done(err);

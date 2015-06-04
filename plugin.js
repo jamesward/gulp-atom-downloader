@@ -145,7 +145,7 @@ function appExePath(options) {
     })
     .then(function() {
       if (options.platform == 'mac') {
-        return path.join(options.binDir, 'Atom.app');
+        return path.join(options.binDir, 'Atom.app/Contents/MacOS/Atom');
       }
       else if (options.platform == 'windows') {
         return path.join(options.binDir, 'Atom');  // todo: test

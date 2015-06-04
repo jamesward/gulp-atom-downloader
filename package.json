@@ -1,6 +1,6 @@
 {
   "name": "gulp-atom-downloader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A gulp.js plugin that downloads Atom",
   "main": "plugin.js",
   "repository": {
