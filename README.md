@@ -17,6 +17,9 @@ The `atomExePath()` function takes an optional config parameter object.  Default
     config.atomDir = './.atom';
     config.binDir = path.join(config.atomDir, 'bin');
 
+## Build Status
+
+[![Linux Build](https://travis-ci.org/jamesward/gulp-atom-downloader.svg?branch=master)](https://travis-ci.org/jamesward/gulp-atom-downloader)
 
 ## Dev Info
 

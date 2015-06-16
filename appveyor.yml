@@ -1,0 +1,8 @@
+platform:
+  - x86
+
+before_test:
+  - cinst Cygwin
+
+test_script:
+  - gulp mocha jshint

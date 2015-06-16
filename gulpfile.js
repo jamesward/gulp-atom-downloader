@@ -17,7 +17,7 @@ gulp.task('mocha', function() {
     .pipe(mocha({reporter: 'mocha-spec-reporter-async', timeout: 120000}));
 });
 
-gulp.task('test', ['jshint', 'mocha'], function() {
+gulp.task('test', function() {
   gulp.watch('*.js', ['jshint', 'mocha']);
 });
 

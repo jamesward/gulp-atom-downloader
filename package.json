@@ -1,6 +1,6 @@
 {
   "name": "gulp-atom-downloader",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A gulp.js plugin that downloads Atom",
   "main": "plugin.js",
   "repository": {
@@ -38,6 +38,7 @@
     "gulp-mocha": "~2.1.0",
     "mocha-spec-reporter-async": "~0.5.7",
     "chai": "~2.3.0",
-    "tmp": "~0.0.26"
+    "tmp": "~0.0.26",
+    "rimraf": "~2.4.0"
   }
 }

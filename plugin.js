@@ -22,8 +22,8 @@ function optionDefaults(options) {
 
   // check we're on the right platform, before we go any further
 
-  if (['mac','darwin','linux','win32'].indexOf(options.platform) < 0) {
-    throw new Error('Only darwin, linux or win32 platforms are supported');
+  if (['mac','darwin','linux','win32','windows'].indexOf(options.platform) < 0) {
+    throw new Error('Only mac, darwin, linux, win32, or windows platforms are supported');
   }
 
   if (options.platform === 'darwin' && options.arch !== 'x64') {
@@ -36,6 +36,10 @@ function optionDefaults(options) {
 
   if (options.platform == 'darwin') {
     options.platform = 'mac';
+  }
+
+  if (options.platform == 'win32') {
+    options.platform = 'windows';
   }
 
   // okay, let's continue
@@ -145,10 +149,16 @@ function appExePath(options) {
     })
     .then(function() {
       if (options.platform == 'mac') {
-        return path.join(options.binDir, 'Atom.app/Contents/MacOS/Atom');
+        return {
+          atom: path.join(options.binDir, 'Atom.app/Contents/Resources/app/atom.sh'),
+          apm: path.join(options.binDir, 'Atom.app/Contents/Resources/app/apm/bin/apm')
+        };
       }
       else if (options.platform == 'windows') {
-        return path.join(options.binDir, 'Atom');  // todo: test
+        return {
+          atom: path.join(options.binDir, 'Atom/atom.exe'),
+          apm: path.join(options.binDir, 'Atom/resources/app/apm/bin/apm.cmd')
+        };
       }
       else {
         throw new Error('Could not determine the Atom executable');
