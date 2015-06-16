@@ -61,4 +61,15 @@ describe('gulp-atom-downloader', function() {
     });
 
   });
+
+  it('should work on this system', function(done) {
+    atomExePath(config).then(function(atomPaths) {
+      assert.isTrue(fs.existsSync(atomPaths.atom), atomPaths.atom + " was not found");
+      assert.isTrue(fs.existsSync(atomPaths.apm), atomPaths.apm + " was not found");
+      done();
+    }).catch(function(err){
+      done(err);
+    });
+
+  });
 });
