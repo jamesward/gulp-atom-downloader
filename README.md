@@ -5,10 +5,10 @@
 1. Add `gulp-atom-downloader` to `devDependencies`
 1. Download Atom, get the executable path, and launch Atom:
 
-        var atomExePath = require('gulp-atom-downloader');
+        var atomPaths = require('gulp-atom-downloader');
     
-        atomExePath().then(function(atomExePath) {
-          return require('child_process').spawn(atomExePath);
+        atomPaths().then(function(atomPaths) {
+          return require('child_process').spawn(atomPaths.atom);
         });
 
 The `atomExePath()` function takes an optional config parameter object.  Defaults:
