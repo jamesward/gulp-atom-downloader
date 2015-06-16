@@ -20,6 +20,7 @@ The `atomExePath()` function takes an optional config parameter object.  Default
 ## Build Status
 
 [![Linux Build](https://travis-ci.org/jamesward/gulp-atom-downloader.svg?branch=master)](https://travis-ci.org/jamesward/gulp-atom-downloader)
+[![Windows Build](https://ci.appveyor.com/api/projects/status/29om8w658crv5gpi?svg=true)](https://ci.appveyor.com/project/jamesward/gulp-atom-downloader)
 
 ## Dev Info
 
