@@ -3,6 +3,7 @@
 var assert = require('chai').assert,
   tmp = require('tmp'),
   fs = require('fs'),
+  path = require('path'),
   atomExePath = require('./plugin');
 
 describe('gulp-atom-downloader', function() {
@@ -16,7 +17,7 @@ describe('gulp-atom-downloader', function() {
 
     config = {
       atomDir: tmpDir.name,
-      binDir: tmpDir.name + '/bin'
+      binDir: path.join(tmpDir.name, 'bin')
     };
   });
 
@@ -29,11 +30,11 @@ describe('gulp-atom-downloader', function() {
     config.platform = 'mac';
 
     atomExePath(config).then(function(atomPaths) {
-      var expectedAtomPath = config.binDir + '/Atom.app/Contents/Resources/app/atom.sh';
+      var expectedAtomPath = path.join(config.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'atom.sh');
       assert.equal(atomPaths.atom, expectedAtomPath);
       assert.isTrue(fs.existsSync(expectedAtomPath), expectedAtomPath + " was not found");
 
-      var expectedApmPath = config.binDir + '/Atom.app/Contents/Resources/app/apm/bin/apm';
+      var expectedApmPath = path.join(config.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'apm', 'bin', 'apm');
       assert.equal(atomPaths.apm, expectedApmPath);
       assert.isTrue(fs.existsSync(expectedApmPath), expectedApmPath + " was not found");
       done();
@@ -48,11 +49,11 @@ describe('gulp-atom-downloader', function() {
     config.platform = 'win32';
 
     atomExePath(config).then(function(atomPaths) {
-      var expectedAtomPath = config.binDir + '/Atom/atom.exe';
+      var expectedAtomPath = path.join(config.binDir, 'Atom', 'atom.exe');
       assert.equal(atomPaths.atom, expectedAtomPath);
       assert.isTrue(fs.existsSync(expectedAtomPath), expectedAtomPath + " was not found");
 
-      var expectedApmPath = config.binDir + '/Atom/resources/app/apm/bin/apm.cmd';
+      var expectedApmPath = path.join(config.binDir, 'Atom', 'resources', 'app', 'apm', 'bin', 'apm.cmd');
       assert.equal(atomPaths.apm, expectedApmPath);
       assert.isTrue(fs.existsSync(expectedApmPath), expectedApmPath + " was not found");
       done();
@@ -62,14 +63,18 @@ describe('gulp-atom-downloader', function() {
 
   });
 
-  it('should work on this system', function(done) {
-    atomExePath(config).then(function(atomPaths) {
-      assert.isTrue(fs.existsSync(atomPaths.atom), atomPaths.atom + " was not found");
-      assert.isTrue(fs.existsSync(atomPaths.apm), atomPaths.apm + " was not found");
+  it('should work on this system unless it is linux', function(done) {
+    if (process.platform != 'linux') {
+      atomExePath(config).then(function (atomPaths) {
+        assert.isTrue(fs.existsSync(atomPaths.atom), atomPaths.atom + " was not found");
+        assert.isTrue(fs.existsSync(atomPaths.apm), atomPaths.apm + " was not found");
+        done();
+      }).catch(function (err) {
+        done(err);
+      });
+    }
+    else {
       done();
-    }).catch(function(err){
-      done(err);
-    });
-
+    }
   });
 });

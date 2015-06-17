@@ -4,4 +4,4 @@ platform:
 build: false
 
 test_script:
-  - gulp mocha jshint
+  - gulp jshint mocha
