@@ -22,8 +22,8 @@ function optionDefaults(options) {
 
   // check we're on the right platform, before we go any further
 
-  if (['mac','darwin','linux','win32','windows'].indexOf(options.platform) < 0) {
-    throw new Error('Only mac, darwin, linux, win32, or windows platforms are supported');
+  if (['darwin','linux','win32'].indexOf(options.platform) < 0) {
+    throw new Error('Only darwin, linux, and win32 platforms are supported');
   }
 
   if (options.platform === 'darwin' && options.arch !== 'x64') {
@@ -32,14 +32,6 @@ function optionDefaults(options) {
 
   if (['x64','ia32'].indexOf(options.arch) < 0) {
     throw new Error('Only the x64 and ia32 architectures are supported on the ' + process.platform + ' platform.');
-  }
-
-  if (options.platform == 'darwin') {
-    options.platform = 'mac';
-  }
-
-  if (options.platform == 'win32') {
-    options.platform = 'windows';
   }
 
   // okay, let's continue
@@ -73,7 +65,17 @@ function optionDefaults(options) {
     }
 
     options.private = {};
-    options.private.filename = 'atom-' + options.platform + '.zip';
+
+    if (options.platform == 'darwin') {
+      options.private.filename = 'atom-mac.zip';
+    }
+    else if (options.platform == 'win32') {
+      options.private.filename = 'atom-windows.zip';
+    }
+    else {
+      throw new Error('At this time there are only Atom zips for Mac & Windows.');
+    }
+
     options.private.filePath = path.resolve(path.join(options.atomDir, options.private.filename));
 
     // loop through each release and find the correct one
@@ -148,16 +150,18 @@ function appExePath(options) {
       });
     })
     .then(function() {
-      if (options.platform == 'mac') {
+      if (options.platform == 'darwin') {
         return {
           atom: path.join(options.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'atom.sh'),
-          apm: path.join(options.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'apm', 'bin', 'apm')
+          apm: path.join(options.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'apm', 'bin', 'apm'),
+          home: path.join(options.binDir)
         };
       }
-      else if (options.platform == 'windows') {
+      else if (options.platform == 'win32') {
         return {
           atom: path.join(options.binDir, 'Atom', 'atom.exe'),
-          apm: path.join(options.binDir, 'Atom', 'resources', 'app', 'apm', 'bin', 'apm.cmd')
+          apm: path.join(options.binDir, 'Atom', 'resources', 'app', 'apm', 'bin', 'apm.cmd'),
+          home: path.join(options.binDir)
         };
       }
       else {

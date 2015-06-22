@@ -25,11 +25,14 @@ describe('gulp-atom-downloader', function() {
     require('rimraf').sync(config.atomDir);
   });
 
-  it('should download Atom for mac', function(done) {
+  it('should download Atom for darwin', function(done) {
 
-    config.platform = 'mac';
+    config.platform = 'darwin';
 
     atomExePath(config).then(function(atomPaths) {
+      var expectedAtomHome = path.join(config.binDir);
+      assert.equal(atomPaths.home, expectedAtomHome);
+
       var expectedAtomPath = path.join(config.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'atom.sh');
       assert.equal(atomPaths.atom, expectedAtomPath);
       assert.isTrue(fs.existsSync(expectedAtomPath), expectedAtomPath + " was not found");
@@ -37,7 +40,29 @@ describe('gulp-atom-downloader', function() {
       var expectedApmPath = path.join(config.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'apm', 'bin', 'apm');
       assert.equal(atomPaths.apm, expectedApmPath);
       assert.isTrue(fs.existsSync(expectedApmPath), expectedApmPath + " was not found");
-      done();
+
+      if (process.platform == 'darwin') {
+        // try to run Atom
+        var atom = require('child_process').spawn(atomPaths.atom, ['-v'], {env: {ATOM_PATH: atomPaths.home}});
+
+        var result = "";
+
+        atom.stdout.on('data', function (data) {
+          result += data.toString();
+        });
+        atom.stderr.on('data', function (data) {
+          result += data.toString();
+        });
+
+        atom.on('close', function (code) {
+          assert.equal(code, 0, "Error running Atom: " + result);
+          done();
+        });
+      }
+      else {
+        done();
+      }
+
     }).catch(function(err){
       done(err);
     });
@@ -77,4 +102,5 @@ describe('gulp-atom-downloader', function() {
       done();
     }
   });
+
 });
