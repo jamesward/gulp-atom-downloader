@@ -11,7 +11,7 @@ describe('gulp-atom-downloader', function() {
   var tmpDir;
   var config;
 
-  beforeEach(function(){
+  beforeEach(function() {
     tmpDir = tmp.dirSync({unsafeCleanup: true});
     tmpDir.removeCallback();
 
@@ -30,8 +30,11 @@ describe('gulp-atom-downloader', function() {
     config.platform = 'darwin';
 
     atomExePath(config).then(function(atomPaths) {
-      var expectedAtomHome = path.join(config.binDir);
-      assert.equal(atomPaths.home, expectedAtomHome);
+      // todo: always going to be true because the config uses an absolute dir
+      assert.isTrue(path.isAbsolute(atomPaths.base));
+
+      var expectedAtomBase = path.join(config.binDir);
+      assert.equal(atomPaths.base, expectedAtomBase);
 
       var expectedAtomPath = path.join(config.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'atom.sh');
       assert.equal(atomPaths.atom, expectedAtomPath);
@@ -43,7 +46,7 @@ describe('gulp-atom-downloader', function() {
 
       if (process.platform == 'darwin') {
         // try to run Atom
-        var atom = require('child_process').spawn(atomPaths.atom, ['-v'], {env: {ATOM_PATH: atomPaths.home}});
+        var atom = require('child_process').spawn(atomPaths.atom, ['-v'], {env: {ATOM_PATH: atomPaths.base}});
 
         var result = "";
 
@@ -63,7 +66,7 @@ describe('gulp-atom-downloader', function() {
         done();
       }
 
-    }).catch(function(err){
+    }).catch(function(err) {
       done(err);
     });
 
@@ -82,7 +85,7 @@ describe('gulp-atom-downloader', function() {
       assert.equal(atomPaths.apm, expectedApmPath);
       assert.isTrue(fs.existsSync(expectedApmPath), expectedApmPath + " was not found");
       done();
-    }).catch(function(err){
+    }).catch(function(err) {
       done(err);
     });
 

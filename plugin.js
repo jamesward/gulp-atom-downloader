@@ -37,7 +37,7 @@ function optionDefaults(options) {
   // okay, let's continue
 
   // setup the cache directory
-  options.atomDir = options.atomDir || '.atom';
+  options.atomDir = options.atomDir || path.resolve('.atom');
 
   options.binDir = options.binDir || path.join(options.atomDir, 'bin');
 
@@ -154,14 +154,14 @@ function appExePath(options) {
         return {
           atom: path.join(options.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'atom.sh'),
           apm: path.join(options.binDir, 'Atom.app', 'Contents', 'Resources', 'app', 'apm', 'bin', 'apm'),
-          home: path.join(options.binDir)
+          base: path.join(options.binDir)
         };
       }
       else if (options.platform == 'win32') {
         return {
           atom: path.join(options.binDir, 'Atom', 'atom.exe'),
           apm: path.join(options.binDir, 'Atom', 'resources', 'app', 'apm', 'bin', 'apm.cmd'),
-          home: path.join(options.binDir)
+          base: path.join(options.binDir)
         };
       }
       else {
