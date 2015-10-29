@@ -10,6 +10,15 @@ var gutil = require('gulp-util'),
 
 var PLUGIN_NAME = 'gulp-atom-downloader';
 
+function latestRelease(releases) {
+
+  var nonBetaReleases = releases.filter(function(release) {
+    return release.tag_name.indexOf('beta') == -1;
+  });
+
+  return nonBetaReleases[0];
+}
+
 function optionDefaults(options) {
 
   options.private = {};
@@ -60,7 +69,7 @@ function optionDefaults(options) {
       bRelease = false;
 
     if (!options.version) {
-      options.version = releases[0].tag_name;
+      options.version = latestRelease(releases).tag_name;
       gutil.log('Found Atom version: ' + options.version);
     }
 
@@ -89,10 +98,8 @@ function optionDefaults(options) {
         release.assets.forEach(function (asset) {
 
           if (asset.name === options.private.filename) {
-
             bRelease = true;
             options.private.downloadUrl = asset.browser_download_url;
-
           }
 
         });
